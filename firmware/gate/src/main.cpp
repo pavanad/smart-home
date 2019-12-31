@@ -55,7 +55,7 @@ void mqttCallback(char *topic, byte *payload, unsigned int length)
     if (topicStr.equals(MQTT_COMMAND_TOPIC))
     {
         Serial.println(payloadStr);
-        if (payloadStr.equals("ON"))
+        if (payloadStr.equals("UNLOCK"))
         {
             toggleRelay();
 
