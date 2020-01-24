@@ -1,0 +1,85 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+http:
+  base_url: http://pavan-home.ddns.net:8123
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+mqtt:
+  broker: localhost
+  discovery: true
+  discovery_prefix: home
+
+light:
+  - platform: mqtt
+    name: "Sala"
+    state_topic: "stat/living-room-light/RESULT"  
+    value_template: "{{ value_json.POWER }}"
+    command_topic: "cmnd/living-room-light/POWER"
+    payload_on: "ON"
+    payload_off: "OFF"
+    availability_topic: "tele/living-room-light/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    retain: false
+
+lock:
+  - platform: mqtt
+    name: Portão Social
+    state_topic: "home/garage/social-gate/state"
+    command_topic: "home/garage/social-gate/set"
+    payload_lock: "LOCK"
+    payload_unlock: "UNLOCK"
+    optimistic: false
+    qos: 0
+    retain: false
+    value_template: '{{ value.x }}'
+    
+  - platform: mqtt
+    name: Portão Garagem
+    state_topic: "home/garage/garage-gate/state"
+    command_topic: "home/garage/garage-gate/set"
+    payload_lock: "LOCK"
+    payload_unlock: "UNLOCK"
+    optimistic: false
+    qos: 0
+    retain: false
+    value_template: '{{ value.x }}'
+    
+telegram_bot:
+  - platform: polling
+    api_key: <api key>
+    allowed_chat_ids:
+      - <chat id>
+
+notify:
+  - name: telegram
+    platform: telegram
+    chat_id: <chat id>
+
+media_player:
+  - platform: spotify
+    client_id: <client id>
+    client_secret: <client secret>
+
+  - platform: samsungtv
+    host: 192.168.0.101
+    
+camera:
+  - platform: ffmpeg
+    name: Câmera portão social
+    input: <rtsp string>
+  - platform: ffmpeg
+    name: Câmera lateral
+    input: <rtsp string>
+    
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml

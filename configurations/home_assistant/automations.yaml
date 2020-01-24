@@ -1,0 +1,24 @@
+- id: '1577681017760'
+  alias: Abertura portão social
+  description: Notificar quando o portão social for aberto
+  trigger:
+  - payload: UNLOCK
+    platform: mqtt
+    topic: home/garage/social-gate/set
+  condition: []
+  action:
+  - data:
+      message: O portão social foi aberto
+    service: notify.telegram
+- id: '1577763363027'
+  alias: Abertura portão da garagem
+  description: Notificar quando o portão da garagem for aberto
+  trigger:
+  - payload: UNLOCK
+    platform: mqtt
+    topic: home/garage/garage-gate/set
+  condition: []
+  action:
+  - data:
+      message: O portão da garagem foi aberto
+    service: notify.telegram
