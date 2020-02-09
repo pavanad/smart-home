@@ -1,6 +1,6 @@
 # Configurations
 
-All configurations of the my home assistant instabce
+All configurations of the my home assistant instance
 
 ## Sonoff Mini
 
